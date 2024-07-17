@@ -5,6 +5,8 @@ const Form = () => {
   const [availableTimes, setAvailableTimes] = useState([]);
   const [availability, setAvailability] = useState({});
 
+  const today = new Date().toISOString().split('T')[0];
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -78,7 +80,7 @@ const Form = () => {
         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="date">
           Date
         </label>
-        <input type="date" id="date" name="date" value={formData.date} onChange={handleChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
+        <input type="date" id="date" name="date" value={formData.date} onChange={handleChange}  min={today} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
       </div>
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="timeSlot">
