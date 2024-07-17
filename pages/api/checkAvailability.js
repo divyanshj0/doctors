@@ -13,7 +13,7 @@ export default async function handler(req, res) {
     try {
       const client = await clientPromise;
       const db = client.db("doctors");
-      const collectionName = `${date.replace(/-/g, "_")}`;
+      const collectionName = `appointments_${date.replace(/-/g, "_")}`;
       const collection = db.collection(collectionName);
 
       const timeSlots = ["8:00-9:00", "9:00-10:00", "16:00-17:00", "17:00-18:00"];

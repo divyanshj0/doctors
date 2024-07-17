@@ -21,7 +21,7 @@ export default async function handler(req, res) {
 
         const client = await clientPromise;
         const db = client.db("doctors");
-        const collectionName = `${date.replace(/-/g, "_")}`;
+        const collectionName = `appointments_${date.replace(/-/g, "_")}`;
         const collection = db.collection(collectionName);
 
         const appointments = await collection.find({}).toArray();

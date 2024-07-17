@@ -1,12 +1,11 @@
 // pages/api/login.js
 import jwt from "jsonwebtoken";
-import bcrypt from "bcryptjs";
 
 const SECRET_KEY = "your-secret-key"; // Ideally, store this in an environment variable
 
 const doctor = {
-  username: "doctor",
-  password: "password123", // hashed password: "password123"
+  username: "dryukti",
+  password: "Yjain@1970", // hashed password: "Yjain@2001"
 };
 
 export default function handler(req, res) {

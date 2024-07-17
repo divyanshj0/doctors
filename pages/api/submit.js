@@ -1,6 +1,4 @@
-import { stringify } from "postcss";
 import clientPromise from "../../lib/mongodb";
-
 const MAX_APPOINTMENTS_PER_HOUR = 2;
 
 export default async function handler(req, res) {
@@ -14,7 +12,7 @@ export default async function handler(req, res) {
     try {
       const client = await clientPromise;
       const db = client.db("doctors");
-      const collectionName = `${date.replace(/-/g, "_")}`;
+      const collectionName = `appointments_${date.replace(/-/g, "_")}`;
       const collection = db.collection(collectionName);
 
       const appointmentCount = await collection.countDocuments({
