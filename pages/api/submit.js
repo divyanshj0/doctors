@@ -3,7 +3,7 @@ const MAX_APPOINTMENTS_PER_HOUR = 2;
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
-    const { name, phone, date, timeSlot, appointmentTime } = req.body;
+    const { name,age,gender, phone, date, timeSlot, appointmentTime } = req.body;
 
     if (!name || !phone || !date || !timeSlot || !appointmentTime) {
       return res.status(400).json({ error: "All fields are required" });
@@ -25,7 +25,7 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: "Appointment slot is full" });
       }
 
-      await collection.insertOne({ name, phone, date, timeSlot, appointmentTime });
+      await collection.insertOne({ name,age,gender, phone, date, timeSlot, appointmentTime });
 
       res.status(201).json({ message: "Appointment booked successfully" });
     } catch (error) {

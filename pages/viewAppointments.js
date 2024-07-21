@@ -60,6 +60,8 @@ const ViewAppointments = () => {
             <thead>
               <tr>
                 <th className="py-2 px-4 border">Name</th>
+                <th className="py-2 px-4 border">Age</th>
+                <th className="py-2 px-4 border">Gender</th>
                 <th className="py-2 px-4 border">Phone</th>
                 <th className="py-2 px-4 border">Time Slot</th>
                 <th className="py-2 px-4 border">Appointment Time</th>
@@ -69,6 +71,8 @@ const ViewAppointments = () => {
               {appointments.map((appointment) => (
                 <tr key={`${appointment.date}-${appointment.timeSlot}-${appointment.appointmentTime}`}>
                   <td className="py-2 px-4 border">{appointment.name}</td>
+                  <td className="py-2 px-4 border">{appointment.age}</td>
+                  <td className="py-2 px-4 border">{appointment.gender}</td>
                   <td className="py-2 px-4 border">{appointment.phone}</td>
                   <td className="py-2 px-4 border">{appointment.timeSlot}</td>
                   <td className="py-2 px-4 border">{appointment.appointmentTime}</td>
