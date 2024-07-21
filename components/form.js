@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 const Form = () => {
-  const [formData, setFormData] = useState({name: "", phone: "",date: "", timeSlot: "",appointmentTime: "",});
+  const [formData, setFormData] = useState({name: "",age:"",gender:"", phone: "",date: "", timeSlot: "",appointmentTime: "",});
   const [availableTimes, setAvailableTimes] = useState([]);
   const [availability, setAvailability] = useState({});
 
@@ -26,7 +26,7 @@ const Form = () => {
 
       if (response.ok) {
         alert("Appointment booked successfully");
-        setFormData({ name: "", phone: "", date: "", timeSlot: "", appointmentTime: "" });
+        setFormData({ name: "",age:"",gender:"", phone: "", date: "", timeSlot: "", appointmentTime: "" });
       } else {
         const errorData = await response.json();
         alert(errorData.error || "Error submitting form");
@@ -69,6 +69,23 @@ const Form = () => {
           Name
         </label>  
         <input type="text" id="name" placeholder="Enter name here"  name="name" value={formData.name} onChange={handleChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="age">
+          Age
+        </label>  
+        <input type="number" id="age" placeholder="Enter age here"  name="age" value={formData.age} onChange={handleChange} min={0}className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="gender">
+          Gender
+        </label>
+        <select id="gender" name="gender" value={formData.gender} onChange={handleChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          <option value="">Select</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+        </select>
       </div>
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="phone">
