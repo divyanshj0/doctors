@@ -4,14 +4,19 @@ const Form = () => {
   const [formData, setFormData] = useState({name: "",age:"",gender:"", phone: "",date: "", timeSlot: "",appointmentTime: "",});
   const [availableTimes, setAvailableTimes] = useState([]);
   const [availability, setAvailability] = useState({});
+  const [today, setToday] = useState("");
 
-  const today = new Date().toISOString().split('T')[0];
+  useEffect(() => {
+    setToday(new Date().toISOString().split("T")[0]);
+    console.log(today);
+  }, []);
 
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -23,7 +28,7 @@ const Form = () => {
         },
         body: JSON.stringify(formData),
       });
-
+      
       if (response.ok) {
         alert("Appointment booked successfully");
         setFormData({ name: "",age:"",gender:"", phone: "", date: "", timeSlot: "", appointmentTime: "" });
@@ -52,16 +57,16 @@ const Form = () => {
       fetchAvailability();
     }
   }, [formData.date, formData.timeSlot]);
-
+  
   useEffect(() => {
     const times = formData.timeSlot === "morning"
-      ? ["8:00-9:00", "9:00-10:00"]
+    ? ["8:00-9:00", "9:00-10:00"]
       : formData.timeSlot === "evening"
       ? ["16:00-17:00", "17:00-18:00"]
       : [];
     setAvailableTimes(times);
   }, [formData.timeSlot]);
-
+  
   return (
     <form onSubmit={handleSubmit} className="max-w-md mx-auto p-4">
       <div className="mb-4">

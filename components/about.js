@@ -9,8 +9,8 @@ const About = () => {
                     <p className="leading-relaxed text-lg">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque maxime harum enim, est eveniet, assumenda hic et minus quia fuga ratione adipisci sit numquam, veniam totam reprehenderit deleniti odio incidunt.
                     </p>
                     <span className="inline-block h-1 w-10 rounded bg-indigo-500 mt-8 mb-6"></span>
-                    <h2 className="text-gray-900 font-medium title-font tracking-wider text-sm">HOLDEN CAULFIELD</h2>
-                    <p className="text-gray-500">Senior Product Designer</p>
+                    <h2 className="text-gray-900 font-medium title-font tracking-wider text-lg">Dr. Yukti Jain</h2>
+                    <p className="text-gray-900 font-medium">M.B.B.S</p>
                 </div>
             </div>
         </section>
