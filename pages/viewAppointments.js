@@ -1,7 +1,5 @@
-// pages/viewAppointments.js
 import { useState } from "react";
 import { useRouter } from "next/router";
-import jwt from "jsonwebtoken";
 
 const ViewAppointments = () => {
   const [date, setDate] = useState("");

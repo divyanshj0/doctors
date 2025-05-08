@@ -1,42 +1,76 @@
-// components/NavBar.js
-import Link from "next/link";
-import Image from "next/image";
-import { useAuth } from "@/context/AuthContext";
+import { useEffect, useState } from 'react';
+import { auth } from '../lib/firebase';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import LoginModal from './LoginModal';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
-const NavBar = () => {
-  const { isAuthenticated, logout } = useAuth();
+export default function Navbar() {
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [userName, setUserName] = useState(null);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUserName(user.displayName || user.email);
+        localStorage.setItem('userEmail', user.email); // Optional: for use in profile fetch
+      } else {
+        setUserName(null);
+        localStorage.removeItem('userEmail');
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      setUserName(null);
+      setDropdownOpen(false);
+      localStorage.clear(); // Clear all local storage (or just specific keys)
+      router.push('/'); // Redirect to homepage
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
 
   return (
-    <nav className="flex md:items-center  flex-wrap bg-blue-500 py-6 px-2">
-      <div className="flex items-center gap-4 text-white mr-6">
-        <Image src={'/logo.svg'} width={50} height={10} alt="logo" className="invert w-auto h-[40px]" />
-        <div className=" flex text-lg lg:flex-grow">
-          <Link href="/" className="block  lg:inline-block lg:mt-0 text-blue-200 hover:text-white mr-4">
-              Home
-          </Link>
-          {isAuthenticated && (
-            <Link href="/viewAppointments" className="block  lg:inline-block lg:mt-0 text-blue-200 hover:text-white">
-                View Appointments
-            </Link>
-          )}
-        </div>
-      </div>
-      <div className="w-full  flex items-center ">
-        
-        {isAuthenticated ? (
-          <button onClick={logout} className="absolute top-4 right-5 inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-blue-500 hover:bg-white mt-4 lg:mt-0">
-            Logout
-          </button>
+    <>
+      <nav className="bg-blue-500 p-4 text-white flex justify-between">
+        <Link href="/">Home</Link>
+        {userName ? (
+          <div className="relative">
+            <button
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+              className="bg-white text-blue-500 px-3 py-1 rounded hover:bg-gray-100"
+            >
+              {userName}
+            </button>
+            {dropdownOpen && (
+              <div className="absolute right-0 mt-2 w-48 bg-white text-black rounded shadow-lg z-10">
+                <ul>
+                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer" onClick={() => router.push('/MyAccountPage')}>My Profile</li>
+                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer" onClick={() => router.push('/add-details')}>Add Details</li>
+                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer" onClick={() => router.push('/appointment')}>See Appointment</li>
+                  <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer" onClick={handleLogout}>Logout</li>
+                </ul>
+              </div>
+            )}
+          </div>
         ) : (
-          <Link href="/login" className="absolute top-4 right-5 inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-blue-500 hover:bg-white mt-4 lg:mt-0">
-              Login
-                          
-          </Link>
+          <button
+            onClick={() => setIsLoginOpen(true)}
+            className="bg-white text-blue-500 px-3 py-1 rounded hover:bg-gray-100"
+          >
+            Login
+          </button>
         )}
-      </div>
-    </nav>
+      </nav>
+
+      <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
+    </>
   );
-};
-
-export default NavBar;
-
+}
