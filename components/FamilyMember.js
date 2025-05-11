@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Label } from 'react';
 import { FaEdit, FaSave, FaPlus } from 'react-icons/fa';
 
 const FamilyMember = () => {
@@ -76,7 +76,7 @@ const FamilyMember = () => {
       <div className="absolute top-4 right-4 flex gap-3">
         <button
           onClick={() =>
-            setNewMembers((prev) => [...prev, { name: '', relation: '', age: '' }])
+            setNewMembers((prev) => [...prev, { name: '', gender: '', age: '', phone: '' }])
           }
           className="text-sm text-blue-600 border border-blue-600 px-2 py-1 rounded hover:bg-blue-50"
         >
@@ -101,64 +101,78 @@ const FamilyMember = () => {
       <ul className="space-y-4 mt-4">
         {familyMembers.map((member, idx) => (
           <li key={idx} className="space-y-1">
-            {editFamily ? (
-              <>
-                <input
-                  type="text"
-                  className="border px-2 py-1 w-full"
-                  value={editedFamily[idx]?.name || ''}
-                  onChange={(e) => handleFamilyChange(idx, 'name', e.target.value)}
-                />
-                <input
-                  type="text"
-                  className="border px-2 py-1 w-full"
-                  value={editedFamily[idx]?.relation || ''}
-                  onChange={(e) => handleFamilyChange(idx, 'relation', e.target.value)}
-                />
-                <input
-                  type="number"
-                  className="border px-2 py-1 w-full"
-                  value={editedFamily[idx]?.age || ''}
-                  onChange={(e) => handleFamilyChange(idx, 'age', e.target.value)}
-                />
-              </>
-            ) : (
-              <>
-                <p><strong>Name:</strong> {member.name}</p>
-                <p><strong>Relation:</strong> {member.relation}</p>
-                <p><strong>Age:</strong> {member.age}</p>
-              </>
-            )}
+            <p>
+              <strong>Name:</strong>
+              {editFamily ? (<input
+                type="text" className="border px-2 py-1 w-full" value={editedFamily[idx]?.name || ''} onChange={(e) => handleFamilyChange(idx, 'name', e.target.value)}
+              />) : (member.name)}
+            </p>
+            <p><strong>Gender:</strong>
+              {editFamily ? (<select name="gender" id="gender" className="border px-2 py-1 w-full"
+                value={editedFamily[idx]?.gender || ''}
+                onChange={(e) => handleFamilyChange(idx, 'gender', e.target.value)} defaultValue={"Select"}>
+                <option value="Select">select</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">others</option>
+              </select>) : (member.gender)}
+            </p>
+            <p><strong>Age:</strong>
+              {editFamily ? (<input
+                type="number"
+                className="border px-2 py-1 w-full"
+                value={editedFamily[idx]?.age || ''}
+                onChange={(e) => handleFamilyChange(idx, 'age', e.target.value)}
+              />)
+                : (member.age)}
+            </p>
+            <p><strong>Phone No.:</strong>
+              {editFamily ? (<input
+                type='text'
+                className="border px-2 py-1 w-full"
+                value={editedFamily[idx]?.phone || ''}
+                onChange={(e) => handleFamilyChange(idx, 'phone', e.target.value)}
+              />) : (member.phone)}
+            </p>
           </li>
         ))}
       </ul>
-
       {/* New members form */}
       {newMembers.length > 0 && (
         <ul className="space-y-4 mt-6 border-t pt-4">
           {newMembers.map((member, idx) => (
             <li key={idx} className="space-y-1">
-              <input
-                type="text"
-                className="border px-2 py-1 w-full"
-                placeholder="Name"
-                value={member.name}
-                onChange={(e) => handleNewMemberChange(idx, 'name', e.target.value)}
-              />
-              <input
-                type="text"
-                className="border px-2 py-1 w-full"
-                placeholder="Relation"
-                value={member.relation}
-                onChange={(e) => handleNewMemberChange(idx, 'relation', e.target.value)}
-              />
+              <p>
+              <strong>Name:</strong>
+              <input type="text"className="border px-2 py-1 "placeholder="Name"value={member.name}onChange={(e) => handleNewMemberChange(idx, 'name', e.target.value)}/>
+              </p>
+              <p><strong>Gender:</strong>
+              <select name="gender" id="gender" value={member.age}
+                onChange={(e) => handleNewMemberChange(idx, 'gender', e.target.value)} defaultValue={'Select'}>
+                <option value="Select">select</option>
+                <option value="Male">male</option>
+                <option value="Female">female</option>
+                <option value="Others">others</option>
+              </select>
+              </p>
+              <p><strong>Age:</strong>
               <input
                 type="number"
-                className="border px-2 py-1 w-full"
+                className="border px-2 py-1"
                 placeholder="Age"
                 value={member.age}
                 onChange={(e) => handleNewMemberChange(idx, 'age', e.target.value)}
               />
+              </p>
+              <p><strong>Phone No.:</strong>
+              <input
+                type="text"
+                className="border px-2 py-1"
+                placeholder="phone"
+                value={member.phone}
+                onChange={(e) => handleNewMemberChange(idx, 'phone', e.target.value)}
+              />
+              </p>
             </li>
           ))}
         </ul>
