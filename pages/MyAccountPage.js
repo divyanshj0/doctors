@@ -5,11 +5,15 @@ import FamilyMember from '@/components/FamilyMember';
 
 export default function MyAccountPage() {
   const router = useRouter();
-  const userEmail = typeof window !== 'undefined' ? localStorage.getItem('userEmail') : null;
+  
 
-  useEffect(() => {
-    if (!userEmail) router.push('/');
-  }, [userEmail]);
+ useEffect(() => {
+  if (typeof window !== 'undefined') {
+    const email = localStorage.getItem('userEmail');
+    if (!email) router.push('/');
+  }
+}, [router]);
+
 
   return (
     <div className="p-6 max-w-3xl mx-auto">
